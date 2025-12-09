@@ -1,26 +1,21 @@
+.PHONY: start stop bash destroy initialize
 
-start: ## Start all docker-compose
-	@./vendor/bin/sail up -d --remove-orphans
+initialize:
+	docker run --rm -v $(PWD):/app -w /app composer:latest composer install --ignore-platform-reqs
+	$(MAKE) start
 
-stop: ## Stop all docker-compose
-	@./vendor/bin/sail stop
+start:
+	./vendor/bin/sail up -d
 
-bash: ## Stop all docker-compose
-	@./vendor/bin/sail exec crmservice.local.test bash
+stop:
+	./vendor/bin/sail stop
 
-migrate: ## Run migrations
-	@./vendor/bin/sail exec crmservice.local.test php artisan migrate
+bash:
+	./vendor/bin/sail shell
+
+destroy:
+	./vendor/bin/sail down -v
+
 
 phpstan:
-	@./vendor/bin/sail exec crmservice.local.test vendor/bin/phpstan analyse --memory-limit=4G -c phpstan.neon
-
-composer:
-	@./vendor/bin/sail composer install
-
-pint:
-	@./vendor/bin/pint src Apps App/console/Commands --config pint.json
-
-style:
-	@./vendor/bin/pint src Apps App/console/Commands --config pint.json
-	@./vendor/bin/sail exec crmservice.local.test vendor/bin/phpstan analyse --memory-limit=4G -c phpstan.neon
-
+	./vendor/bin/sail php ./vendor/bin/phpstan analyse --memory-limit=1G

@@ -1,6 +1,6 @@
 
 To start the project
-make start
+make initialize
 
 To check phpstan
 make style
