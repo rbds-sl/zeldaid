@@ -1,0 +1,269 @@
+{
+  "info": {
+    "_postman_id": "wallet-passes-api",
+    "name": "Apple Wallet Passes API",
+    "description": "API collection for Apple Wallet Passes management",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Pass",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "ApplePass {{auth_token}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pass_type_identifier\": \"pass.com.example\",\n  \"serial_number\": \"pass-001\",\n  \"template_type\": \"generic\",\n  \"data\": {\n    \"description\": \"Mi primer pass\",\n    \"organizationName\": \"Mi Empresa\",\n    \"foregroundColor\": \"rgb(255, 0, 0)\",\n    \"backgroundColor\": \"rgb(255, 255, 255)\"\n  }\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/passes",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "passes"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Download Pass",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "ApplePass {{auth_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v1/passes/{{pass_type}}/{{serial_number}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "passes",
+            "{{pass_type}}",
+            "{{serial_number}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Pass",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "ApplePass {{auth_token}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"data\": {\n    \"description\": \"Pass actualizado\",\n    \"organizationName\": \"Nueva Empresa\"\n  }\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/passes/{{pass_type}}/{{serial_number}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "passes",
+            "{{pass_type}}",
+            "{{serial_number}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Register Device",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "ApplePass {{auth_token}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pushToken\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/devices/{{device_id}}/registrations/{{pass_type}}/{{serial_number}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "devices",
+            "{{device_id}}",
+            "registrations",
+            "{{pass_type}}",
+            "{{serial_number}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Unregister Device",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "ApplePass {{auth_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v1/devices/{{device_id}}/registrations/{{pass_type}}/{{serial_number}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "devices",
+            "{{device_id}}",
+            "registrations",
+            "{{pass_type}}",
+            "{{serial_number}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Updated Passes",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "ApplePass {{auth_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v1/devices/{{device_id}}/registrations/{{pass_type}}?lastUpdated={{last_updated}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "devices",
+            "{{device_id}}",
+            "registrations",
+            "{{pass_type}}"
+          ],
+          "query": [
+            {
+              "key": "lastUpdated",
+              "value": "{{last_updated}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Log Error",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"deviceLibraryIdentifier\": \"device-id-12345\",\n  \"logs\": [\n    {\n      \"message\": \"Error al actualizar el pass\",\n      \"passTypeIdentifier\": \"pass.com.example\",\n      \"serialNumber\": \"pass-001\"\n    },\n    {\n      \"message\": \"Actualización completada\",\n      \"passTypeIdentifier\": \"pass.com.example\",\n      \"serialNumber\": \"pass-001\"\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/log",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "log"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "my-token-123",
+      "type": "string"
+    },
+    {
+      "key": "device_id",
+      "value": "device-iphone-12345",
+      "type": "string"
+    },
+    {
+      "key": "pass_type",
+      "value": "pass.com.example",
+      "type": "string"
+    },
+    {
+      "key": "serial_number",
+      "value": "pass-001",
+      "type": "string"
+    },
+    {
+      "key": "last_updated",
+      "value": "1702929600",
+      "type": "string"
+    }
+  ]
+}
