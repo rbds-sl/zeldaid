@@ -36,6 +36,7 @@ class WalletPassGeneratorService
                 'passTypeIdentifier' => $passTypeIdentifier,
                 'serialNumber' => $serialNumber,
                 'teamIdentifier' => $passData['teamIdentifier'] ?? config('passgenerator.team_identifier', 'teamid'),
+                'webServiceURL' => $passData['webServiceURL'] ?? $this->getWebServiceURL(),
             ];
 
             // Agregar campos opcionales
@@ -133,5 +134,15 @@ class WalletPassGeneratorService
         $pass = WalletPass::findByTypeAndSerial($passTypeIdentifier, $serialNumber);
 
         return $pass ? $pass->data : null;
+    }
+
+    /**
+     * Obtener la URL del web service para registro de dispositivos
+     * Esta URL es necesaria para que Apple Wallet pueda registrar dispositivos
+     */
+    private function getWebServiceURL(): string
+    {
+        $appUrl = config('app.url', 'http://localhost:8000');
+        return rtrim($appUrl, '/') . '/api/v1';
     }
 }

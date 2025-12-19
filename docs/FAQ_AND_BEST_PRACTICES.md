@@ -49,6 +49,42 @@ curl -H "Authorization: Bearer my-secret-token"
 
 ---
 
+### P: ¿Dónde se configura el `webServiceURL` para el registro de dispositivos?
+
+**R:** Se configura automáticamente al crear el pass. El API establece:
+
+```
+webServiceURL = {APP_URL}/api/v1
+```
+
+Donde `APP_URL` viene de `config('app.url')` en Laravel.
+
+**Opcionalmente puedes personalizar:**
+
+```bash
+# Crear pass con webServiceURL personalizada
+curl -X POST http://localhost:8000/api/v1/passes \
+  -H "Authorization: ApplePass my-token" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "pass_type_identifier": "pass.com.example",
+    "serial_number": "pass-001",
+    "template_type": "generic",
+    "data": {
+      "description": "Mi pass",
+      "organizationName": "Mi Empresa",
+      "webServiceURL": "https://api.miempresa.com/api/v1"
+    }
+  }'
+```
+
+**¿Por qué es importante?**
+- Apple Wallet usa esta URL para registrar dispositivos
+- Sin `webServiceURL`, no se pueden registrar dispositivos
+- Se incrusta en el archivo `.pkpass`
+
+---
+
 ### P: ¿El pass se crea automáticamente cuando se registra un dispositivo?
 
 **R:** No. El flujo correcto es:

@@ -78,6 +78,8 @@ curl -X POST http://localhost:8000/api/v1/passes \
   }'
 ```
 
+**Nota:** El `webServiceURL` se configura automáticamente a `http://localhost:8000/api/v1` para que los dispositivos puedan registrarse.
+
 ### Descargar el pass
 
 ```bash

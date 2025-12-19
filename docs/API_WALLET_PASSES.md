@@ -345,6 +345,13 @@ Content-Type: application/json
 - `serial_number` (string): Identificador único del pass
 - `template_type` (string): Tipo de plantilla (generic, coupon, eventTicket, etc.)
 - `data` (object): Configuración del pass (JSON flexible)
+  - `description` (string): Descripción del pass
+  - `organizationName` (string): Nombre de la organización
+  - `foregroundColor` (string, opcional): Color en formato rgb()
+  - `backgroundColor` (string, opcional): Color en formato rgb()
+  - `webServiceURL` (string, opcional): URL del web service para registro de dispositivos
+    - Si no se proporciona, se usa automáticamente: `{APP_URL}/api/v1`
+    - Esta URL es necesaria para que Apple Wallet registre dispositivos
 
 **Respuesta exitosa (201 Created):**
 ```json
